@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -38,7 +39,7 @@ public class NumadicTestSuite {
 		boolean status;
 		NumadicCareersHomapage numadicHomepage = new NumadicCareersHomapage(driver);
 		status=numadicHomepage.loginOurCrew.isDisplayed();
-        assertTrue(status, "Login our Crew is not desplayed");
+        Assert.assertTrue(status, "Login our Crew is not desplayed");
 	}
 	
 	// Testcase to click on 'Apply' button and redirection to careers page
@@ -54,21 +55,21 @@ public class NumadicTestSuite {
 		// Selecting 'Internship' value in 'Job Type' dropdown
 		numadicHomepage.selectAJobType("IN");
 		status=numadicHomepage.noAvailableJobs.isDisplayed();
-		assertTrue(status, "No jobs available message is not displayed for Job Type Internship");
+		Assert.assertTrue(status, "No jobs available message is not displayed for Job Type Internship");
 	
 		// Selecting 'Full time' value in 'Job Type' dropdown
 		numadicHomepage.selectAJobType("FT");
 		numadicHomepage.selectJobAsQAEngineer();
 		String currentUrl = driver.getCurrentUrl();;
 		status=currentUrl.contains("/qa-engineer");
-		assertTrue(status, "URL as qa-engineer is not verified");
+		Assert.assertTrue(status, "URL as qa-engineer is not verified");
 		CareersQAEnginner careersQAEnginner = new CareersQAEnginner(driver);
 		status = careersQAEnginner.applyHereNowBtn.isDisplayed();
-		assertTrue(status, "Apply here now button is not displayed");
+		Assert.assertTrue(status, "Apply here now button is not displayed");
 		careersQAEnginner.clickOnApplyForQARole();
 		String currentUrl1 = driver.getCurrentUrl();;
 		status=currentUrl1.contains("/#careersFormContainer");
-		assertTrue(status, "Redirection back to careers page is not done");		
+		Assert.assertTrue(status, "Redirection back to careers page is not done");		
 		numadicHomepage.applyForQAEngineer();
 	}
 	
@@ -90,7 +91,7 @@ public class NumadicTestSuite {
 		status=numadicHomepage.firstNameValidationMessage.isDisplayed() && numadicHomepage.lastNameValidationMessage.isDisplayed() && 
 				numadicHomepage.emailValidationMessage.isDisplayed() && numadicHomepage.phoneValidationMessage.isDisplayed() && numadicHomepage.dobValidationMessage.isDisplayed();
 
-		assertTrue(status,"Validation messages are not getting displayed");
+		Assert.assertTrue(status,"Validation messages are not getting displayed");
 		// Thread.sleep(3000);
 		
 		try {
@@ -98,16 +99,16 @@ public class NumadicTestSuite {
 		status=numadicHomepage.firstNameValidationMessage.isDisplayed() || numadicHomepage.lastNameValidationMessage.isDisplayed() || 
 				numadicHomepage.emailValidationMessage.isDisplayed() || numadicHomepage.phoneValidationMessage.isDisplayed() || numadicHomepage.dobValidationMessage.isDisplayed();
 		
-		assertFalse(status,"Validation messages are getting displayed for valid inputs");
+		Assert.assertFalse(status,"Validation messages are getting displayed for valid inputs");
 		}
 		catch (Exception NoSuchElementException) {
 		}
 	}
 	
 	// Quitting the browser
-//	@AfterTest
-//	public void aftertest() {
-//		driver.quit();
-//	}
+	@AfterTest
+	public void aftertest() {
+		driver.quit();
+	}
 	
 }
